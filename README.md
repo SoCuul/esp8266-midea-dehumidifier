@@ -33,10 +33,13 @@ This means an alternative is to hook up directly to this serial interface and by
 This list contains all tested and known-working dehumidifiers:
 
 * Midea MAD22S1WWT
+* Comfee MDDF-16DEN7-WF
 * Comfee MDDF-20DEN7-WF
 * Inventor Eva II PRO WI-FI
 * Inventor EVA ION PRO WiFi 20L
 * Midea Cube 20 ([#22](https://github.com/Hypfer/esp8266-midea-dehumidifier/issues/22))
+* Midea Cube 35 ([#29](https://github.com/Hypfer/esp8266-midea-dehumidifier/issues/29))
+* Midea Cube 50 ([#27](https://github.com/Hypfer/esp8266-midea-dehumidifier/issues/27))
 
 Additionally, there are models that technically also work but have some issues:
 
