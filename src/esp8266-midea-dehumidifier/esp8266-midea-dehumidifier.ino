@@ -320,11 +320,11 @@ void publishAutoConfig() {
   autoconfPayload["device"] = device.as<JsonObject>();
   autoconfPayload["availability_topic"] = MQTT_TOPIC_AVAILABILITY;
   autoconfPayload["state_topic"] = MQTT_TOPIC_STATE;
-  autoconfPayload["name"] = identifier + String(" Error Code");
-  autoconfPayload["device_class"] = "humidity";
-  autoconfPayload["unit_of_measurement"] = "code";
+  autoconfPayload["name"] = "Error Code";
+  autoconfPayload["has_entity_name"] = true;
   autoconfPayload["value_template"] = "{{value_json.errorCode}}";
   autoconfPayload["unique_id"] = identifier + String("_errorCode");
+  autoconfPayload["icon"] = "mdi:alert-circle-outline";
 
   serializeJson(autoconfPayload, mqttPayload);
   mqttClient.publish(MQTT_TOPIC_AUTOCONF_ERROR_SENSOR, mqttPayload, true);
