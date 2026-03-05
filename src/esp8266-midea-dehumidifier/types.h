@@ -18,4 +18,5 @@ struct dehumidifierState_t {
   byte humiditySetpoint;
   byte currentHumidity;
   byte errorCode;
+  boolean bucketFull;
 };

@@ -41,8 +41,9 @@ char MQTT_TOPIC_STATE[128];
 char MQTT_TOPIC_COMMAND[128];
 
 char MQTT_TOPIC_AUTOCONF_WIFI_SENSOR[128];
-char MQTT_TOPIC_AUTOCONF_HUMIDITY_SENSOR[128];
 char MQTT_TOPIC_AUTOCONF_ERROR_SENSOR[128];
+char MQTT_TOPIC_AUTOCONF_BUCKETFULL_SENSOR[128];
+char MQTT_TOPIC_AUTOCONF_HUMIDITY_SENSOR[128];
 
 
 char MQTT_TOPIC_AUTOCONF_FAN[128];
@@ -67,6 +68,7 @@ void setup() {
   state.humiditySetpoint = 55;
   state.currentHumidity = 45;
   state.errorCode = 0;
+  state.bucketFull = false;
 
   delay(3000);
   updateAndSendNetworkStatus(false);
@@ -77,9 +79,10 @@ void setup() {
   snprintf(MQTT_TOPIC_STATE, 127, "%s/%s/state", FIRMWARE_PREFIX, identifier);
   snprintf(MQTT_TOPIC_COMMAND, 127, "%s/%s/command", FIRMWARE_PREFIX, identifier);
 
-  snprintf(MQTT_TOPIC_AUTOCONF_HUMIDITY_SENSOR, 127, "homeassistant/sensor/%s/%s_humidity/config", FIRMWARE_PREFIX, identifier);
   snprintf(MQTT_TOPIC_AUTOCONF_WIFI_SENSOR, 127, "homeassistant/sensor/%s/%s_wifi/config", FIRMWARE_PREFIX, identifier);
   snprintf(MQTT_TOPIC_AUTOCONF_ERROR_SENSOR, 127, "homeassistant/sensor/%s/%s_error/config", FIRMWARE_PREFIX, identifier);
+  snprintf(MQTT_TOPIC_AUTOCONF_BUCKETFULL_SENSOR, 127, "homeassistant/binary_sensor/%s/%s_bucketfull/config", FIRMWARE_PREFIX, identifier);
+  snprintf(MQTT_TOPIC_AUTOCONF_HUMIDITY_SENSOR, 127, "homeassistant/sensor/%s/%s_humidity/config", FIRMWARE_PREFIX, identifier);
 
 
   snprintf(MQTT_TOPIC_AUTOCONF_FAN, 127, "homeassistant/select/%s/%s_fan/config", FIRMWARE_PREFIX, identifier);
@@ -214,6 +217,7 @@ void publishState() {
   stateJson["humiditySetpoint"] = state.humiditySetpoint;
   stateJson["humidityCurrent"] = state.currentHumidity;
   stateJson["errorCode"] = state.errorCode;
+  stateJson["bucketFull"] = state.bucketFull;
 
   switch (state.fanSpeed) {
     case low:
@@ -306,20 +310,6 @@ void publishAutoConfig() {
   autoconfPayload["device"] = device.as<JsonObject>();
   autoconfPayload["availability_topic"] = MQTT_TOPIC_AVAILABILITY;
   autoconfPayload["state_topic"] = MQTT_TOPIC_STATE;
-  autoconfPayload["name"] = "Humidity";
-  autoconfPayload["device_class"] = "humidity";
-  autoconfPayload["unit_of_measurement"] = "%";
-  autoconfPayload["value_template"] = "{{value_json.humidityCurrent}}";
-  autoconfPayload["unique_id"] = identifier + String("_humidity");
-
-  serializeJson(autoconfPayload, mqttPayload);
-  mqttClient.publish(MQTT_TOPIC_AUTOCONF_HUMIDITY_SENSOR, mqttPayload, true);
-
-  autoconfPayload.clear();
-
-  autoconfPayload["device"] = device.as<JsonObject>();
-  autoconfPayload["availability_topic"] = MQTT_TOPIC_AVAILABILITY;
-  autoconfPayload["state_topic"] = MQTT_TOPIC_STATE;
   autoconfPayload["name"] = "Error Code";
   autoconfPayload["has_entity_name"] = true;
   autoconfPayload["value_template"] = "{{value_json.errorCode}}";
@@ -328,6 +318,38 @@ void publishAutoConfig() {
 
   serializeJson(autoconfPayload, mqttPayload);
   mqttClient.publish(MQTT_TOPIC_AUTOCONF_ERROR_SENSOR, mqttPayload, true);
+
+  autoconfPayload.clear();
+
+
+  autoconfPayload["device"] = device.as<JsonObject>();
+  autoconfPayload["availability_topic"] = MQTT_TOPIC_AVAILABILITY;
+  autoconfPayload["state_topic"] = MQTT_TOPIC_STATE;
+  autoconfPayload["name"] = "Bucket Full";
+  autoconfPayload["has_entity_name"] = true;
+  autoconfPayload["value_template"] = "{{value_json.bucketFull}}";
+  autoconfPayload["payload_on"] = true;
+  autoconfPayload["payload_off"] = false;
+  autoconfPayload["unique_id"] = identifier + String("_bucketFull");
+  autoconfPayload["icon"] = "mdi:pail";
+
+  serializeJson(autoconfPayload, mqttPayload);
+  mqttClient.publish(MQTT_TOPIC_AUTOCONF_BUCKETFULL_SENSOR, mqttPayload, true);
+
+  autoconfPayload.clear();
+
+
+  autoconfPayload["device"] = device.as<JsonObject>();
+  autoconfPayload["availability_topic"] = MQTT_TOPIC_AVAILABILITY;
+  autoconfPayload["state_topic"] = MQTT_TOPIC_STATE;
+  autoconfPayload["name"] = "Humidity";
+  autoconfPayload["device_class"] = "humidity";
+  autoconfPayload["unit_of_measurement"] = "%";
+  autoconfPayload["value_template"] = "{{value_json.humidityCurrent}}";
+  autoconfPayload["unique_id"] = identifier + String("_humidity");
+
+  serializeJson(autoconfPayload, mqttPayload);
+  mqttClient.publish(MQTT_TOPIC_AUTOCONF_HUMIDITY_SENSOR, mqttPayload, true);
 
   autoconfPayload.clear();
 
