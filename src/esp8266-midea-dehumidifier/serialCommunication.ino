@@ -16,6 +16,7 @@ void parseState() {
   state.humiditySetpoint = serialRxBuf[17] >= 100 ? 99 : serialRxBuf[17];
   state.currentHumidity = serialRxBuf[26];
   state.errorCode = serialRxBuf[31];
+  state.bucketFull = state.errorCode == 38;
 
   clearRxBuf();
 }
