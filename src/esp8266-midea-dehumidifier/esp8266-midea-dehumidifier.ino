@@ -285,7 +285,7 @@ void publishAutoConfig() {
 
   device["identifiers"] = identifiers;
   device["manufacturer"] = "Midea Group Co., Ltd.";
-  device["model"] = "Generic Dehumidifier";
+  device["model"] = "Cube 20 pt. Dehumidifier";
   device["name"] = identifier;
   device["sw_version"] = "2023.08.0";
 
