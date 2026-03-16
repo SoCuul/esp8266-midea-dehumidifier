@@ -64,8 +64,8 @@ void setup() {
 
   //Initializing with defaults until we have a status update
   state.powerOn = false;
-  state.fanSpeed = low;
-  state.mode = setpoint;
+  state.fanSpeed = high;
+  state.mode = maximum;
   state.humiditySetpoint = 55;
   state.currentHumidity = 45;
   state.errorCode = 0;
@@ -227,9 +227,6 @@ void publishState() {
     case low:
       stateJson["fanSpeed"] = "Low";
       break;
-    case medium:
-      stateJson["fanSpeed"] = "Medium";
-      break;
     case high:
       stateJson["fanSpeed"] = "High";
       break;
@@ -242,11 +239,8 @@ void publishState() {
     case continuous:
       stateJson["mode"] = "Continuous";
       break;
-    case smart:
-      stateJson["mode"] = "Smart";
-      break;
-    case clothesDrying:
-      stateJson["mode"] = "Clothes Drying";
+    case maximum:
+      stateJson["mode"] = "Maximum";
       break;
   }
 
@@ -379,7 +373,6 @@ void publishAutoConfig() {
   JsonArray speedOptions = optionsDoc.to<JsonArray>();
 
   speedOptions.add("Low");
-  speedOptions.add("Medium");
   speedOptions.add("High");
 
   autoconfPayload["device"] = device.as<JsonObject>();
@@ -431,8 +424,7 @@ void publishAutoConfig() {
 
   modes.add("Setpoint");
   modes.add("Continuous");
-  modes.add("Smart");
-  modes.add("Clothes Drying");
+  modes.add("Maximum");
 
   autoconfPayload["modes"] = modes;
   autoconfPayload["mode_state_topic"] = MQTT_TOPIC_STATE;
