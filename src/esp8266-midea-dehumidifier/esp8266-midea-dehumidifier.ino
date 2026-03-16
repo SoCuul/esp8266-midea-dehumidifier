@@ -285,7 +285,7 @@ void publishAutoConfig() {
   device["manufacturer"] = "Midea Group Co., Ltd.";
   device["model"] = "Cube 20 pt. Dehumidifier";
   device["name"] = identifier;
-  device["sw_version"] = "2023.08.0";
+  device["sw_version"] = "2026.03.16";
 
 
   autoconfPayload["device"] = device.as<JsonObject>();
