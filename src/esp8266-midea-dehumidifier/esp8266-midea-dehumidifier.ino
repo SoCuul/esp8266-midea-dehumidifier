@@ -217,28 +217,28 @@ void publishState() {
 
   switch (state.fanSpeed) {
     case low:
-      stateJson["fanSpeed"] = "low";
+      stateJson["fanSpeed"] = "Low";
       break;
     case medium:
-      stateJson["fanSpeed"] = "medium";
+      stateJson["fanSpeed"] = "Medium";
       break;
     case high:
-      stateJson["fanSpeed"] = "high";
+      stateJson["fanSpeed"] = "High";
       break;
   }
 
   switch (state.mode) {
     case setpoint:
-      stateJson["mode"] = "setpoint";
+      stateJson["mode"] = "Setpoint";
       break;
     case continuous:
-      stateJson["mode"] = "continuous";
+      stateJson["mode"] = "Continuous";
       break;
     case smart:
-      stateJson["mode"] = "smart";
+      stateJson["mode"] = "Smart";
       break;
     case clothesDrying:
-      stateJson["mode"] = "clothesDrying";
+      stateJson["mode"] = "Clothes Drying";
       break;
   }
 
@@ -335,9 +335,9 @@ void publishAutoConfig() {
   StaticJsonDocument<64> optionsDoc;
   JsonArray speedOptions = optionsDoc.to<JsonArray>();
 
-  speedOptions.add("low");
-  speedOptions.add("medium");
-  speedOptions.add("high");
+  speedOptions.add("Low");
+  speedOptions.add("Medium");
+  speedOptions.add("High");
 
   autoconfPayload["device"] = device.as<JsonObject>();
   autoconfPayload["availability_topic"] = MQTT_TOPIC_AVAILABILITY;
@@ -386,10 +386,10 @@ void publishAutoConfig() {
   autoconfPayload["target_humidity_state_template"] = "{{value_json.humiditySetpoint | int}}";
   autoconfPayload["target_humidity_command_template"] = "{\"humiditySetpoint\": {{value | int}}}";
 
-  modes.add("setpoint");
-  modes.add("continuous");
-  modes.add("smart");
-  modes.add("clothesDrying");
+  modes.add("Setpoint");
+  modes.add("Continuous");
+  modes.add("Smart");
+  modes.add("Clothes Drying");
 
   autoconfPayload["modes"] = modes;
   autoconfPayload["mode_state_topic"] = MQTT_TOPIC_STATE;

@@ -82,21 +82,21 @@ void handleStateUpdateRequest(String requestedState, String mode, String fanSpee
     newState.powerOn = false;
   }
 
-  if (mode == "setpoint") {
+  if (mode == "Setpoint") {
     newState.mode = (dehumMode_t)setpoint;
-  } else if (mode == "continuous") {
+  } else if (mode == "Continuous") {
     newState.mode = (dehumMode_t)continuous;
-  } else if (mode == "smart") {
+  } else if (mode == "Smart") {
     newState.mode = (dehumMode_t)smart;
-  } else if (mode == "clothesDrying") {
+  } else if (mode == "Clothes Drying") {
     newState.mode = (dehumMode_t)clothesDrying;
   }
 
-  if (fanSpeed == "low") {
+  if (fanSpeed == "Low") {
     newState.fanSpeed = (fanSpeed_t)low;
-  } else if (fanSpeed == "medium") {
+  } else if (fanSpeed == "Medium") {
     newState.fanSpeed = (fanSpeed_t)medium;
-  } else if (fanSpeed == "high") {
+  } else if (fanSpeed == "High") {
     newState.fanSpeed = (fanSpeed_t)high;
   }
 
