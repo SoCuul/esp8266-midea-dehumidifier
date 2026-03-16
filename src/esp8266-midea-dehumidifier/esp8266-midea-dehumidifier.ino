@@ -30,7 +30,7 @@ unsigned long lastMqttConnectionAttempt = millis();
 const long mqttConnectionInterval = 60000;
 
 unsigned long statusPollPreviousMillis = millis();
-const long statusPollInterval = 30000;
+const long statusPollInterval = 15000;
 
 char identifier[24];
 #define FIRMWARE_PREFIX "esp8266-midea-dehumidifier"
